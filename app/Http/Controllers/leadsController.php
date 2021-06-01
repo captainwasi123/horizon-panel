@@ -408,5 +408,21 @@ class leadsController extends Controller
             return redirect('/login')->with('error', 'Authentication Error');
         } 
     }
+
+
+    function prePotential($id){
+       if (Auth::check()) {
+            $id = base64_decode($id);
+            $data = lead::where('id', $id)->first();
+            $data->visit_date = null;
+            $data->visit_hold = null;
+            $data->lead_status = '2';
+            $data->save();
+            userLog::addLog($id, '11');
+            return redirect()->back()->with('success', 'Sent back to potential queries.');
+        }else{
+            return redirect('/login')->with('error', 'Authentication Error');
+        } 
+    }
     
 }

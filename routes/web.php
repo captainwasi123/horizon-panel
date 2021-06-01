@@ -63,6 +63,7 @@ use Illuminate\Support\Facades\Route;
 	Route::get('/query/edit/{id}', 'leadsController@editLead');
 	Route::get('/query/convert/{id}', 'leadsController@convertLead');
 	Route::get('/query/status/{status}/{id}', 'leadsController@queryStatus');
+	Route::get('/query/pre-potential/{id}', 'leadsController@prePotential');
 
 	Route::get('/query/total', 'leadsController@totalQueries');
 	Route::post('/query/total', 'leadsController@totalQueriesSubmit');

@@ -142,6 +142,7 @@
                                                                         <a class="dropdown-item convert" data-id="{{ base64_encode($data->id) }}" href="javascript:void(0)"><i class="fa fa-thumbs-up"></i>&nbsp;&nbsp;Mature Sale</a>
                                                                         <a class="dropdown-item" href="{{URL::to('/')}}/sales/quotation/{{ base64_encode($data->id) }}"><i class="fa fa-dollar"></i>&nbsp;&nbsp;&nbsp;Quotation</a>
                                                                         <div class="dropdown-divider"></div>
+                                                                        <a class="dropdown-item revPotential" data-id="{{ base64_encode($data->id) }}" href="JavaScript:void(0)"><i class="fa fa-arrow-left"></i>&nbsp;&nbsp;Send Back</a>
                                                                         <a class="dropdown-item pendingLead" data-id="{{ base64_encode($data->id) }}" href="JavaScript:void(0)"><i class="fa fa-clock-o"></i>&nbsp;&nbsp;Pending</a>
                                                                         <a class="dropdown-item" href="{{URL::to('/')}}/query/edit/{{ base64_encode($data->id) }}"><i class="fa fa-edit"></i>&nbsp;Edit</a>
                                                                     </div>
@@ -354,6 +355,22 @@
                     showHideTransition: 'fade'
                 });
                 return false; 
+            });
+            $(document).on('click', '.revPotential', function() {
+                var del_data = $(this).data("id");
+                $.toast().reset('all');
+                $("body").removeAttr('class');
+                $.toast({
+                    heading: 'Are you sure you want to send back this query?',
+                    text: '<i class="jq-toast-icon ti-alert"></i><a href="{{ URL::to("/")}}/query/pre-potential/'+del_data+'" class="btn btn-primary btn-sm">&nbsp;&nbsp;&nbsp;&nbsp;Yes&nbsp;&nbsp;&nbsp;&nbsp;</a>',
+                    position: 'top-center',
+                    loaderBg:'#7a5449',
+                    class: 'jq-has-icon jq-toast-warning',
+                    hideAfter: 3500, 
+                    stack: 6,
+                    showHideTransition: 'fade'
+                });
+                return false;
             });
         });
     </script>
