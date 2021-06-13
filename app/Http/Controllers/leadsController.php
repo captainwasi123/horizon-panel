@@ -80,11 +80,11 @@ class leadsController extends Controller
             $status = status::all();
             $category = category::all();
             $user = User::where('role_id', '3')->get();
-            $databelt = lead::where('trash', null)
-                        ->where('lead_status', '2')
+            $databelt = lead::where('lead_status', '2')
                         ->when(1>0, function ($q) {
                             return $q->where('visit_date', null)->orWhere('visit_hold', '1');
                         })
+                        ->where('trash', null)
                         ->orderBy('created_at', 'desc')->get();
             return view('leads.potentialQueries', ['databelt' => $databelt, 'status' => $status, 'category' => $category, 'users' => $user, 'filter' => '0']);
         }else{
