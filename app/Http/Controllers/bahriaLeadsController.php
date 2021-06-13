@@ -44,6 +44,23 @@ class bahriaLeadsController extends Controller
         } 
     }
 
+    function totalCategory($id, $name){
+       if (Auth::check()) {
+            $id = base64_decode($id);
+            $status = status::all();
+            $category = category::all();
+            $user = User::where('id', '!=', '1')->get();
+            $databelt = lead::where('trash', null)
+                        ->where('lead_status', '1')
+                        ->whereIn('cat_id', ['1', '2', '3'])
+                        ->where('cat_id', $id)
+                        ->orderBy('created_at', 'desc')->get();
+            return view('bahriaLeads.totalQueriesCategory', ['databelt' => $databelt, 'status' => $status, 'category' => $category, 'users' => $user, 'filter' => '0', 'name' => $name]);
+        }else{
+            return redirect('/login')->with('error', 'Authentication Error');
+        } 
+    }
+
 
     function totalQueriesSubmit(Request $request){
        if (Auth::check()) {

@@ -45,8 +45,86 @@
                                                 <li class="nav-item">
                                                     <a class="nav-link" href="{{ URL::to('/query/add') }}">Add Query</a>
                                                 </li>
-                                                <li class="nav-item">
+                                                <!-- <li class="nav-item">
                                                     <a class="nav-link" href="{{ URL::to('/query/total') }}">Total Queries</a>
+                                                </li> -->
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="javascript:void(0);" data-toggle="collapse" data-target="#totalCat">
+                                                            Total Queries
+                                                        </a>
+                                                    <ul id="totalCat" class="nav flex-column collapse collapse-level-2">
+                                                        <li class="nav-item">
+                                                            <a class="nav-link" href="{{ URL::to('/query/total/'.base64_encode(0).'/Uncategoriezed') }}">Uncategoriezed</a>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a class="nav-link" href="javascript:void(0);" data-toggle="collapse" data-target="#totalCat1">
+                                                                    Bahria
+                                                                </a>
+                                                            <ul id="totalCat1" class="nav flex-column collapse collapse-level-3">
+                                                                <li class="nav-item">
+                                                                    <ul class="nav flex-column">
+                                                                        <li class="nav-item">
+                                                                            <a class="nav-link" href="{{ URL::to('/query/total/'.base64_encode(1).'/Bahria Trading') }}">Trading</a>
+                                                                        </li>
+                                                                        <li class="nav-item">
+                                                                            <a class="nav-link" href="{{ URL::to('/query/total/'.base64_encode(2).'/Bahria Villa') }}">Villa</a>
+                                                                        </li>
+                                                                        <li class="nav-item">
+                                                                            <a class="nav-link" href="{{ URL::to('/query/total/'.base64_encode(3).'/Bahria Construction') }}">Construction</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </li>
+                                                            </ul>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a class="nav-link" href="javascript:void(0);" data-toggle="collapse" data-target="#totalCat2">
+                                                                    DHA
+                                                                </a>
+                                                            <ul id="totalCat2" class="nav flex-column collapse collapse-level-3">
+                                                                <li class="nav-item">
+                                                                    <ul class="nav flex-column">
+                                                                        <li class="nav-item">
+                                                                            <a class="nav-link" href="{{ URL::to('/query/total/'.base64_encode(4).'/DHA Construction') }}">Construction</a>
+                                                                        </li>
+                                                                        <li class="nav-item">
+                                                                            <a class="nav-link" href="{{ URL::to('/query/total/'.base64_encode(5).'/DHA Trading') }}">Trading</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </li>
+                                                            </ul>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a class="nav-link" href="javascript:void(0);" data-toggle="collapse" data-target="#totalCat3">
+                                                                    Industrial Plot
+                                                                </a>
+                                                            <ul id="totalCat3" class="nav flex-column collapse collapse-level-3">
+                                                                <li class="nav-item">
+                                                                    <ul class="nav flex-column">
+                                                                        <li class="nav-item">
+                                                                            <a class="nav-link" href="{{ URL::to('/query/total/'.base64_encode(6).'/Industrial Plot Construction') }}">Construction</a>
+                                                                        </li>
+                                                                        <li class="nav-item">
+                                                                            <a class="nav-link" href="{{ URL::to('/query/total/'.base64_encode(7).'/Industrial Plot Trading') }}">Trading</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </li>
+                                                            </ul>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a class="nav-link" href="javascript:void(0);" data-toggle="collapse" data-target="#totalCat4">
+                                                                    Inter-City
+                                                                </a>
+                                                            <ul id="totalCat4" class="nav flex-column collapse collapse-level-3">
+                                                                <li class="nav-item">
+                                                                    <ul class="nav flex-column">
+                                                                        <li class="nav-item">
+                                                                            <a class="nav-link" href="{{ URL::to('/query/total/'.base64_encode(8).'/Inter City Construction') }}">Construction</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </li>
+                                                            </ul>
+                                                        </li>
+                                                    </ul>
                                                 </li>
                                             @endif
                                             @if(Auth::user()->role_id == '1' || Auth::user()->role_id == '7' || Auth::user()->role_id == '8' || Auth::user()->role_id == '10')
@@ -80,8 +158,24 @@
                                                 <li class="nav-item">
                                                     <a class="nav-link" href="{{ URL::to('bahria/query/add') }}">Add Query</a>
                                                 </li>
-                                                <li class="nav-item">
+                                                <!-- <li class="nav-item">
                                                     <a class="nav-link" href="{{ URL::to('bahria/query/total') }}">Total Queries</a>
+                                                </li> -->
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="javascript:void(0);" data-toggle="collapse" data-target="#totalCatb">
+                                                            Total Queries
+                                                        </a>
+                                                    <ul id="totalCatb" class="nav flex-column collapse collapse-level-2">
+                                                        <li class="nav-item">
+                                                            <a class="nav-link" href="{{ URL::to('bahria/query/total/'.base64_encode(1).'/Trading') }}">Trading</a>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a class="nav-link" href="{{ URL::to('/bahria/query/total/'.base64_encode(2).'/Villa') }}">Villa</a>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a class="nav-link" href="{{ URL::to('/bahria/query/total/'.base64_encode(3).'/Construction') }}">Construction</a>
+                                                        </li>
+                                                    </ul>
                                                 </li>
                                             @endif
                                             @if(Auth::user()->role_id == '1' || Auth::user()->role_id == '17' || Auth::user()->role_id == '13' || Auth::user()->role_id == '19')

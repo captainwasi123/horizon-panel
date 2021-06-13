@@ -113,7 +113,7 @@
                                                             {{$s}}
                                                         </th>
                                                         <td>{{$data->name}}</td>
-                                                        <td>{{empty($data->phone) ? '-' : $data->phone}}</td>
+                                                        <td><a href="tel:{{empty($data->phone) ? '-' : $data->phone}}">{{empty($data->phone) ? '-' : $data->phone}}</a></td>
                                                         <td>{{empty($data->other_phone) ? '-' : $data->other_phone}}</td>
                                                         <td>
                                                         	<span class="badge badge-primary">{{empty($data->category) ? 'null' : $data->category->category}}</span>

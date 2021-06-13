@@ -56,37 +56,42 @@ use Illuminate\Support\Facades\Route;
 
 
 /* Leads Route */
-/*
-	Route::get('/query/total', 'leadsController@index');*/
-	Route::get('/query/add', 'leadsController@addLead');
-	Route::get('/query/delete/{id}', 'leadsController@deleteLead');
-	Route::get('/query/edit/{id}', 'leadsController@editLead');
-	Route::get('/query/convert/{id}', 'leadsController@convertLead');
-	Route::get('/query/status/{status}/{id}', 'leadsController@queryStatus');
-	Route::get('/query/pre-potential/{id}', 'leadsController@prePotential');
 
-	Route::get('/query/total', 'leadsController@totalQueries');
-	Route::post('/query/total', 'leadsController@totalQueriesSubmit');
+	Route::prefix('query')->group(function(){
+		Route::get('add', 'leadsController@addLead');
+		Route::get('delete/{id}', 'leadsController@deleteLead');
+		Route::get('edit/{id}', 'leadsController@editLead');
+		Route::get('convert/{id}', 'leadsController@convertLead');
+		Route::get('status/{status}/{id}', 'leadsController@queryStatus');
+		Route::get('pre-potential/{id}', 'leadsController@prePotential');
 
-	Route::get('/query/potential', 'leadsController@potentialQueries');
-	Route::post('/query/potential', 'leadsController@potentialQueriesSubmit');
+		Route::get('total', 'leadsController@totalQueries');
+		Route::post('total', 'leadsController@totalQueriesSubmit');
+
+		Route::get('potential', 'leadsController@potentialQueries');
+		Route::post('potential', 'leadsController@potentialQueriesSubmit');
 
 
-	Route::get('/query/superPotential', 'leadsController@superpotentialQueries');
-	Route::post('/query/superPotential', 'leadsController@superpotentialQueriesSubmit');
+		Route::get('superPotential', 'leadsController@superpotentialQueries');
+		Route::post('superPotential', 'leadsController@superpotentialQueriesSubmit');
 
-	Route::post('/query/assign/person', 'leadsController@assignPerson');
-	Route::post('/query/visitDate', 'leadsController@setVisitDate');
+		Route::post('assign/person', 'leadsController@assignPerson');
+		Route::post('visitDate', 'leadsController@setVisitDate');
 
-	Route::post('/leads/insert', 'leadsController@insertLead');
-	Route::post('/leads/update', 'leadsController@updateLead');
-	Route::post('/leads/remarks/add', 'leadsController@insertRemarks');
+		Route::get('total/{id}/{name}', 'leadsController@totalCategory');
+	});
 
-	Route::get('/leads/pending', 'leadsController@pendingLeads');
-	Route::post('/leads/pending', 'leadsController@pendingLeadsSubmit');
+	Route::prefix('leads')->group(function(){
+		Route::post('insert', 'leadsController@insertLead');
+		Route::post('update', 'leadsController@updateLead');
+		Route::post('remarks/add', 'leadsController@insertRemarks');
 
-	Route::get('/leads/remarks/load/{id}', 'leadsController@loadRemarks');
-	
+		Route::get('pending', 'leadsController@pendingLeads');
+		Route::post('pending', 'leadsController@pendingLeadsSubmit');
+
+		Route::get('remarks/load/{id}', 'leadsController@loadRemarks');
+	});
+
 	//Bahria
 	Route::prefix('bahria')->group(function(){
 
@@ -109,6 +114,9 @@ use Illuminate\Support\Facades\Route;
 
 			Route::post('assign/person', 'bahriaLeadsController@assignPerson');
 			Route::post('visitDate', 'bahriaLeadsController@setVisitDate');
+
+
+			Route::get('total/{id}/{name}', 'bahriaLeadsController@totalCategory');
 		});
 
 		Route::prefix('leads')->group(function(){

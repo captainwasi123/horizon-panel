@@ -213,6 +213,14 @@ body {
 .select2-container .select2-selection--single {
   height: 35px !important;
 }
+
+
+ul.collapse-level-3 .nav-item .nav-link{
+      padding: 0.35rem 1rem 0.35rem 5rem !important;
+}
+
+
+
 .dash-logo {
     width: 160px;
 }

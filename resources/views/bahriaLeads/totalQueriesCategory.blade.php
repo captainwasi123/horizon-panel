@@ -1,8 +1,9 @@
 @extends('support.master')
-@section('title', 'Super Potential Queries')
+@section('title', 'Total Queries - Bahria')
 @section('content')
 
 @php $date_remind = date('Y-m-d', strtotime("-7 days")); @endphp
+
             <!-- Breadcrumb -->
             <nav class="hk-breadcrumb" aria-label="breadcrumb">
             	<br>
@@ -14,7 +15,7 @@
                 <!-- Title -->
                 <br>
                 <div class="hk-pg-header">
-                    <h4 class="hk-pg-title"><span class="pg-title-icon"><i class="icon-people"></i></span>Super Potential Queries</h4>
+                    <h4 class="hk-pg-title"><span class="pg-title-icon"><i class="icon-people"></i></span>Total Queries - Bahria {{$name}}</h4>
                 </div>
                 <!-- /Title -->
 
@@ -111,12 +112,7 @@
                                                             @endif
                                                             {{$s}}
                                                         </th>
-                                                        <td title="{{empty($data->visit_date) ? '' : date('d-M-Y', strtotime($data->visit_date))}}">
-                                                            @if(!empty($data->visit_date) && $data->visit_date >= date('Y-m-d'))
-                                                                <span class="badge badge-info badge-indicator"></span>
-                                                            @endif
-                                                            {{$data->name}}
-                                                        </td>
+                                                        <td>{{$data->name}}</td>
                                                         <td><a href="tel:{{empty($data->phone) ? '-' : $data->phone}}">{{empty($data->phone) ? '-' : $data->phone}}</a></td>
                                                         <td>{{empty($data->other_phone) ? '-' : $data->other_phone}}</td>
                                                         <td>
@@ -142,13 +138,14 @@
                                                                 <div class="dropdown">
                                                                     <a href="#" aria-expanded="false" data-toggle="dropdown" class="btn btn-link dropdown-toggle btn-icon-dropdown"><span class="feather-icon"><i data-feather="server"></i></span> <span class="caret"></span></a>
                                                                     <div role="menu" class="dropdown-menu">
-                                                                        <a class="dropdown-item revPotential" data-id="{{ base64_encode($data->id) }}" href="javascript:void(0)"><i class="fa fa-arrow-left"></i>&nbsp;&nbsp;Send Back</a>
-                                                                        <a class="dropdown-item assignModal" data-id="{{ base64_encode($data->id) }}" href="javascript:void(0)"><i class="fa fa-refresh"></i>&nbsp;&nbsp;Lead</a>
+                                                                        <a class="dropdown-item potential" data-id="{{ base64_encode($data->id) }}" href="javascript:void(0)"><i class="fa fa-refresh"></i>&nbsp;&nbsp;Potential</a>
+                                                                        
+                                                                            <a class="dropdown-item" href="{{URL::to('/')}}/bahria/query/edit/{{ base64_encode($data->id) }}"><i class="fa fa-edit"></i>&nbsp;Edit</a>
                                                                         @if(Auth::user()->role_id == '1' || Auth::user()->role_id == '8')
-                                                                            <a class="dropdown-item" href="{{URL::to('/')}}/query/edit/{{ base64_encode($data->id) }}"><i class="fa fa-edit"></i>&nbsp;Edit</a> 
                                                                             <div class="dropdown-divider"></div>
                                                                             <a class="dropdown-item tst2" data-id="{{ base64_encode($data->id) }}" href="#"><i class="fa fa-trash"></i>&nbsp;&nbsp;Delete</a>
-                                                                        @endif
+                                                                        @endif 
+                                                                        
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -175,7 +172,7 @@
                 <!-- /Row -->
 
                  <!-- Modal -->
-                    <div class="modal fade" id="remarksmodal" tabindex="-1" role="dialog"  aria-hidden="true">
+                     <div class="modal fade" id="remarksmodal" tabindex="-1" role="dialog" aria-hidden="true">
                             <div class="modal-dialog modal-lg" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -191,67 +188,6 @@
                             </div>
                         </div>
                 <!-- Modal -->
-
-
-                    <div class="modal fade" id="assignModalu" tabindex="-1" role="dialog" aria-labelledby="assignModalu" aria-hidden="true">
-                        <div class="modal-dialog modal-sm" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Assign Lead to Person</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form method="post" action="{{URL::to('/query/assign/person')}}">
-                                        {{csrf_field()}}
-                                    <input type="hidden" name="lead_id" id="lid">
-                                    <label>Assign To:</label>
-                                    <select class="form-control" name="assign_to" required>
-                                        <option value="" selected>Select</option>
-                                        @foreach($users as $key => $val)
-                                            <option value="{{$val->id}}"
-                                                @if(!empty($search_data['user_by']))
-                                                    {{$search_data['user_by'] == $val->id ? 'selected' : ''}}
-                                                @endif
-                                            >{{$val->fullname}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="reset" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Save changes</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="modal fade" id="visitModalu" tabindex="-1" role="dialog" aria-labelledby="visitModalu" aria-hidden="true">
-                        <div class="modal-dialog modal-sm" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Set Visit Date</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form method="post" action="{{URL::to('/query/visitDate')}}">
-                                        {{csrf_field()}}
-                                    <input type="hidden" name="lead_id" id="llid">
-                                    <label>Date:</label>
-                                    <input type="date" name="visit_date" class="form-control" required>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="reset" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Save changes</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
             </div>
             <!-- /Container -->
 @endsection
@@ -312,30 +248,6 @@
                 console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
             });
 
-
-            $(document).on('click','.openremarks' ,function(e){
-                var id = $(this).data("id");
-                var xhttp = new XMLHttpRequest();
-                $('#remarksmodal').modal('show');
-                xhttp.onreadystatechange = function() {
-                    if (this.readyState == 4 && this.status == 200) {
-                        $('#remarksbody').html(xhttp.responseText);
-                    }else{
-                        $('#remarksbody').html('<img src="{{URL::to('/')}}/dist/img/earth.gif" width="200">');
-                    }
-                };
-                xhttp.open("GET", "{{URL::to('/')}}/leads/remarks/load/"+id, true);
-                xhttp.send();
-            });
-
-
-           $(document).on('click touchstart', '.assignModal',function(e){
-                e.preventDefault();
-                var id = $(this).data("id");
-                $('#lid').val(id);
-                $('#assignModalu').modal('show');
-            });
-
             $('#datable_3').DataTable( {
                 dom: 'Bfrtip',
                 responsive: true,
@@ -373,13 +285,30 @@
                 }
             } );
 
+
+
+            $(document).on('click','.openremarks' ,function(e){
+                var id = $(this).data("id");
+                var xhttp = new XMLHttpRequest();
+                $('#remarksmodal').modal('show');
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        $('#remarksbody').html(xhttp.responseText);
+                    }else{
+                        $('#remarksbody').html('<img src="{{URL::to('/')}}/dist/img/earth.gif" width="200">');
+                    }
+                };
+                xhttp.open("GET", "{{URL::to('/')}}/leads/remarks/load/"+id, true);
+                xhttp.send();
+            });
+
             $(document).on('click', '.tst2', function() {
                 var del_data = $(this).data("id");
                 $.toast().reset('all');
                 $("body").removeAttr('class');
                 $.toast({
                     heading: 'Are you sure you want to move this to trash?',
-                    text: '<i class="jq-toast-icon ti-alert"></i><a href="{{ URL::to("/")}}/query/delete/'+del_data+'" class="btn btn-primary btn-sm">&nbsp;&nbsp;&nbsp;&nbsp;Yes&nbsp;&nbsp;&nbsp;&nbsp;</a>',
+                    text: '<i class="jq-toast-icon ti-alert"></i><a href="{{ URL::to("/")}}/bahria/query/delete/'+del_data+'" class="btn btn-primary btn-sm">&nbsp;&nbsp;&nbsp;&nbsp;Yes&nbsp;&nbsp;&nbsp;&nbsp;</a>',
                     position: 'top-center',
                     loaderBg:'#7a5449',
                     class: 'jq-has-icon jq-toast-warning',
@@ -390,13 +319,13 @@
                 return false;
             });
 
-             $(document).on('click', '.revPotential', function() {
+            $(document).on('click', '.potential', function() {
                 var del_data = $(this).data("id");
                 $.toast().reset('all');
                 $("body").removeAttr('class');
                 $.toast({
-                    heading: 'Are you sure you want to send back this query?',
-                    text: '<i class="jq-toast-icon ti-alert"></i><a href="{{ URL::to("/")}}/query/pre-potential/'+del_data+'" class="btn btn-primary btn-sm">&nbsp;&nbsp;&nbsp;&nbsp;Yes&nbsp;&nbsp;&nbsp;&nbsp;</a>',
+                    heading: 'Are you sure you want to move this to potential?',
+                    text: '<i class="jq-toast-icon ti-alert"></i><a href="{{ URL::to("/")}}/bahria/query/status/2/'+del_data+'" class="btn btn-primary btn-sm">&nbsp;&nbsp;&nbsp;&nbsp;Yes&nbsp;&nbsp;&nbsp;&nbsp;</a>',
                     position: 'top-center',
                     loaderBg:'#7a5449',
                     class: 'jq-has-icon jq-toast-warning',
