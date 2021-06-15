@@ -35,8 +35,8 @@
                                                         <th>Email</th>
                                                         <th>Phone</th>
                                                         <th>Role</th>
-                                                        <th>Team</th>
                                                         <th>Status</th>
+                                                        <th>Team</th>
                                                         <th>Action</th>
                                                     </tr>
                                                 </thead>
