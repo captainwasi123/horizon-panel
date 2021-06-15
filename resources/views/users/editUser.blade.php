@@ -78,6 +78,19 @@
 				                                        		
 				                                        	</select>
 			                                        	</div>
+			                                        </div>
+		                                        	<br>
+		                                        	<div class="row">
+			                                        	<div class="col-md-4">
+				                                        	<span class="label_span">Team</span>
+				                                        	<select class="form-control form-control-sm" name="team">
+				                                        		<option value="">Select</option>
+				                                        		@foreach($team as $val)
+				                                        			<option value="{{$val->id}}" @if($databelt['team_id'] == $val->id) selected @endif>{{$val->name}}</option>
+				                                        		@endforeach
+				                                        		
+				                                        	</select>
+			                                        	</div>
 			                                        </div> 
 		                                        	<div class="row">
 		                                        		<hr>

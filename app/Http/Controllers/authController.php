@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Auth;
 use DB;
 use App\User;
+use App\team;
 use App\userLog;
 use App\logAction;
 use App\leads\lead;
@@ -109,7 +110,8 @@ class authController extends Controller
     function addUser(){
        if (Auth::check() && Auth::user()->role_id == '1') {
             $role = DB::table('tbl_role')->orderBy('seq')->get();
-            return view('users.newUser', ['role' => $role]);
+            $team = team::orderBy('name')->get();
+            return view('users.newUser', ['role' => $role, 'team' => $team]);
         }else{
             return redirect('/login')->with('error', 'Authentication Error');
         }
@@ -126,12 +128,13 @@ class authController extends Controller
             $user = new User;
             $user->fullname = $data['fullname'];
             $user->email = $data['email'];
-            $user->username = $data['username'];
+            $user->username = null;
             $user->password = bcrypt($data['password']);
             $user->age = $data['age'];
             $user->cnic = $data['cnic'];
             $user->phone = $data['phone'];
             $user->role_id = $data['role'];
+            $user->team_id = $data['team'];
             $user->status = '1';
             $user->remember_token = $data['_token'];
 
@@ -158,7 +161,8 @@ class authController extends Controller
             $id = base64_decode($id);
             $databelt = User::find($id);
             $role = DB::table('tbl_role')->orderBy('seq')->get();
-            return view('users.editUser', ['databelt' => $databelt, 'role' => $role]);
+            $team = team::orderBy('name')->get();
+            return view('users.editUser', ['databelt' => $databelt, 'role' => $role, 'team' => $team]);
         }else{
             return redirect('/login')->with('error', 'Authentication Error');
         }
@@ -175,6 +179,7 @@ class authController extends Controller
             $user->cnic = $data['cnic'];
             $user->phone = $data['phone'];
             $user->role_id = $data['role'];
+            $user->team_id = $data['team'];
             $user->remember_token = $data['_token'];
 
             $user->save();

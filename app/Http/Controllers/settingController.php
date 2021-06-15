@@ -7,6 +7,7 @@ use Auth;
 use App\setting\workflowItem;
 use App\setting\workflow;
 use App\setting\workflowDetail;
+use App\team;
 use DB;
 
 class settingController extends Controller
@@ -58,6 +59,27 @@ class settingController extends Controller
     		
     		return redirect('/setting/workflow')->with('success', 'Layout Updated.');
     	}else{
+            return redirect('/login')->with('error', 'Authentication Error');
+        }
+    }
+
+
+    //Team
+    function team(){
+        if(Auth::check()){
+            $data = team::orderBy('name')->get();
+            return view('users.team', ['databelt' => $data]);
+        }else{
+            return redirect('/login')->with('error', 'Authentication Error');
+        }
+    }
+    function addTeam(Request $request){
+        if(Auth::check()){
+            $data = $request->all();
+            team::addTeam($data['name']);
+
+            return redirect()->back()->with('success', 'Team Added.');
+        }else{
             return redirect('/login')->with('error', 'Authentication Error');
         }
     }

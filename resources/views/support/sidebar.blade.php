@@ -371,6 +371,9 @@
                                                 <li class="nav-item">
                                                     <a class="nav-link" href="{{ URL::to('/users/log') }}">Users Log</a>
                                                 </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="{{ route('user.team') }}">Teams</a>
+                                                </li>
                                             </ul>
                                         </li>
                                     </ul>

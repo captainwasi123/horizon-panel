@@ -16,20 +16,29 @@ use Illuminate\Support\Facades\Route;
 	Route::get('/', 'authController@dashboardView');
 	Route::get('/login', 'authController@loginView');
 	Route::get('/logout', 'authController@logout');
-	Route::get('/users', 'authController@users');
-	Route::get('/users/Add', 'authController@addUser');
-	Route::get('/users/delete/{id}', 'authController@deleteUser');
-	Route::get('/users/edit/{id}', 'authController@editUser');
-	Route::get('/users/inactive/{id}', 'authController@inactiveUser');
-	Route::get('/users/active/{id}', 'authController@activeUser');
-
 	Route::post('/login', 'authController@loginAttempt');
-	Route::post('/users/insert', 'authController@insertUser');
-	Route::post('/users/update', 'authController@updateUser');
+
+	Route::prefix('users')->group(function(){
+		Route::get('/', 'authController@users');
+		Route::get('/Add', 'authController@addUser');
+		Route::get('/delete/{id}', 'authController@deleteUser');
+		Route::get('/edit/{id}', 'authController@editUser');
+		Route::get('/inactive/{id}', 'authController@inactiveUser');
+		Route::get('/active/{id}', 'authController@activeUser');
+		Route::post('/insert', 'authController@insertUser');
+		Route::post('/update', 'authController@updateUser');
 
 
-	Route::get('/users/log', 'authController@userLog');
-	Route::post('/users/log', 'authController@userLogSubmit');
+		Route::get('/log', 'authController@userLog');
+		Route::post('/log', 'authController@userLogSubmit');
+
+
+		Route::prefix('team')->group(function(){
+
+			Route::get('/', 'settingController@team')->name('user.team');
+			Route::post('/add', 'settingController@addTeam')->name('user.team.add');
+		});
+	});
 
 //Building Material
 

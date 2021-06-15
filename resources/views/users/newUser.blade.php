@@ -82,16 +82,21 @@
 		                                        	</div>
 		                                        	<div class="row">
 			                                        	<div class="col-md-4">
-				                                        	<span class="label_span">Username</span>
-				                                            <input type="text" placeholder="" name="username" autocomplete="false"  class="form-control form-control-sm" required>
-			                                        	</div>
-			                                        	<div class="col-md-4">
 				                                        	<span class="label_span">Password</span>
 				                                            <input type="password" name="password" autocomplete="false"  class="form-control form-control-sm" required>
 			                                        	</div>
 			                                        	<div class="col-md-4">
 				                                        	<span class="label_span">Confirm Password</span>
 				                                            <input type="password" name="password_confirmation" class="form-control form-control-sm" required>
+			                                        	</div>
+			                                        	<div class="col-md-4">
+				                                        	<span class="label_span">Team</span>
+				                                        	<select class="form-control form-control-sm" name="team">
+				                                        		<option value="">Select</option>
+				                                        		@foreach($team as $val)
+				                                        			<option value="{{$val->id}}">{{$val->name}}</option>
+				                                        		@endforeach
+				                                        	</select>
 			                                        	</div>
 			                                        </div>
 			                                        <br>

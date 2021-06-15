@@ -1,5 +1,5 @@
 @extends('support.master')
-@section('title', 'Users')
+@section('title', 'Team | Users')
 @section('content')
             <!-- Breadcrumb -->
             <nav class="hk-breadcrumb" aria-label="breadcrumb">
@@ -11,9 +11,9 @@
             <div class="container">
                 <!-- Title -->
                 <div class="hk-pg-header">
-                    <h4 class="hk-pg-title"><span class="pg-title-icon"><i class="icon-people"></i></span>Users</h4>
+                    <h4 class="hk-pg-title"><span class="pg-title-icon"><i class="icon-people"></i></span>Team | Users</h4>
                     <div class="right_side">
-                        <a href="{{ URL::to('/users/Add') }}" class="btn btn-primary"><i class="icon-user-follow"></i>&nbsp;Add User</a>
+                        <a href="javascript:void(0)" class="btn btn-primary"  data-toggle="modal" data-target="#newTeam"><i class="icon-user-follow"></i>&nbsp;Add Team</a>
                     </div>
                 </div>
                 <!-- /Title -->
@@ -29,15 +29,9 @@
                                             <table class="table mb-0">
                                                 <thead>
                                                     <tr>
-                                                        <th>#</th>
-                                                        <th>Full Name</th>
-                                                        <th>Age</th>
-                                                        <th>Email</th>
-                                                        <th>Phone</th>
-                                                        <th>Role</th>
-                                                        <th>Team</th>
-                                                        <th>Status</th>
-                                                        <th>Action</th>
+                                                        <th style="width:15%;">#</th>
+                                                        <th style="width:65%;">Name</th>
+                                                        <th style="width:20%;">Created at</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -47,42 +41,9 @@
                                                     @foreach($databelt as $key => $data)
                                                     <tr>
                                                         <th scope="row">{{$s}}</th>
-                                                        <td>{{$data->fullname}}</td>
-                                                        <td><strong>{{empty($data->age) ? '-' : $data->age.' y'}}</strong></td>
-                                                        <td>{{$data->email}}</td>
-                                                        <td>{{empty($data->phone) ? '-' : $data->phone}}</td>
+                                                        <td>{{$data->name}}</td>
                                                         <td>
-                                                            <span class="badge badge-info">{{$data->userRole->role}}</span>
-                                                        </td>
-                                                        <td>
-                                                            @if($data->status == 1)
-                                                                <span class="badge badge-success">Active</span>
-                                                            @else
-                                                                <span class="badge badge-danger">In-Active</span>
-                                                            @endif
-                                                        </td>
-                                                        <td>
-                                                            @if(!empty($data->team_id))
-                                                                <span class="badge badge-warning">{{$data->team->name}}</span>
-                                                            @endif
-                                                        </td>
-                                                        <td>
-                                                            <div class="btn-group">
-                                                                <div class="dropdown">
-                                                                    <a href="#" aria-expanded="false" data-toggle="dropdown" class="btn btn-link dropdown-toggle btn-icon-dropdown"><span class="feather-icon"><i data-feather="server"></i></span> <span class="caret"></span></a>
-                                                                    <div role="menu" class="dropdown-menu">
-                                                                        <a class="dropdown-item" href="{{URL::to('/')}}/users/edit/{{ base64_encode($data->id) }}"><i class="fa fa-edit"></i>&nbsp;Edit</a>
-                                                                        @if($data->status == 1)
-                                                                            <a class="dropdown-item inac-tst" data-id="{{ base64_encode($data->id) }}" href="#"><i class="linea-icon linea-basic" data-icon="g"></i>&nbsp;In-Active</a>
-                                                                        @else
-                                                                            <a class="dropdown-item ac-tst" data-id="{{ base64_encode($data->id) }}" href="#"><i class="glyphicon glyphicon-ok"></i>&nbsp;Active</a>
-                                                                        @endif
-                                                                        
-                                                                        <div class="dropdown-divider"></div>
-                                                                        <a class="dropdown-item tst2" data-id="{{ base64_encode($data->id) }}" href="#"><i class="fa fa-trash"></i>&nbsp;&nbsp;Delete</a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+                                                            {{date('d-M-Y h:i a', strtotime($data->created_at))}}
                                                         </td>
                                                     </tr>
                                                     @php
@@ -102,6 +63,32 @@
 
             </div>
             <!-- /Container -->
+
+
+            <div class="modal fade" id="newTeam" tabindex="-1" role="dialog" aria-labelledby="visitModalu" aria-hidden="true">
+                <div class="modal-dialog modal-sm" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Set Visit Date</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="post" action="{{route('user.team.add')}}">
+                                {{csrf_field()}}
+                            <label>Name</label>
+                            <input type="text" name="name" class="form-control" required>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="reset" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 @endsection
 
 @section('addScript')
