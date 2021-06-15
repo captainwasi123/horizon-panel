@@ -26,7 +26,7 @@
                                 <div class="col-sm">
                                     <div class="table-wrap">
                                         <div class="table-responsive">
-                                            <table class="table mb-0">
+                                            <table class="table mb-0" id="datable_3">
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>
@@ -103,8 +103,18 @@
             </div>
             <!-- /Container -->
 @endsection
+@section('addStyle')
+
+    <!-- Data Table CSS -->
+    <link href="/vendors4/datatables.net-dt/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+    <link href="/vendors4/datatables.net-responsive-dt/css/responsive.dataTables.min.css" rel="stylesheet" type="text/css" />
+
+@endsection
 
 @section('addScript')
+    <script src="/vendors4/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="/vendors4/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="/vendors4/datatables.net-dt/js/dataTables.dataTables.min.js"></script>
     
     @if (session()->has('success'))
         <script type="text/javascript">
@@ -173,6 +183,19 @@
                 });
                 return false;
             });
+
+           $('#datable_3').DataTable( {
+                dom: 'Bfrtip',
+                responsive: true,
+                language: { search: "",searchPlaceholder: "Search" },
+                "bPaginate": true,
+                "iDisplayLength": 25,
+                "info":     true,
+                "bFilter":     false,
+                "drawCallback": function () {
+                    $('.dt-buttons > .btn').addClass('btn-outline-light btn-sm');
+                }
+            } );
         });
     </script>
 @endsection
