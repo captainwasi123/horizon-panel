@@ -67,22 +67,24 @@
                                                             @endif
                                                         </td>
                                                         <td>
-                                                            <div class="btn-group">
-                                                                <div class="dropdown">
-                                                                    <a href="#" aria-expanded="false" data-toggle="dropdown" class="btn btn-link dropdown-toggle btn-icon-dropdown"><span class="feather-icon"><i data-feather="server"></i></span> <span class="caret"></span></a>
-                                                                    <div role="menu" class="dropdown-menu">
-                                                                        <a class="dropdown-item" href="{{URL::to('/')}}/users/edit/{{ base64_encode($data->id) }}"><i class="fa fa-edit"></i>&nbsp;Edit</a>
-                                                                        @if($data->status == 1)
-                                                                            <a class="dropdown-item inac-tst" data-id="{{ base64_encode($data->id) }}" href="#"><i class="linea-icon linea-basic" data-icon="g"></i>&nbsp;In-Active</a>
-                                                                        @else
-                                                                            <a class="dropdown-item ac-tst" data-id="{{ base64_encode($data->id) }}" href="#"><i class="glyphicon glyphicon-ok"></i>&nbsp;Active</a>
-                                                                        @endif
-                                                                        
-                                                                        <div class="dropdown-divider"></div>
-                                                                        <a class="dropdown-item tst2" data-id="{{ base64_encode($data->id) }}" href="#"><i class="fa fa-trash"></i>&nbsp;&nbsp;Delete</a>
+                                                            @if($data->id != '1')
+                                                                <div class="btn-group">
+                                                                    <div class="dropdown">
+                                                                        <a href="#" aria-expanded="false" data-toggle="dropdown" class="btn btn-link dropdown-toggle btn-icon-dropdown"><span class="feather-icon"><i data-feather="server"></i></span> <span class="caret"></span></a>
+                                                                        <div role="menu" class="dropdown-menu">
+                                                                            <a class="dropdown-item" href="{{URL::to('/')}}/users/edit/{{ base64_encode($data->id) }}"><i class="fa fa-edit"></i>&nbsp;Edit</a>
+                                                                            @if($data->status == 1)
+                                                                                <a class="dropdown-item inac-tst" data-id="{{ base64_encode($data->id) }}" href="#"><i class="linea-icon linea-basic" data-icon="g"></i>&nbsp;In-Active</a>
+                                                                            @else
+                                                                                <a class="dropdown-item ac-tst" data-id="{{ base64_encode($data->id) }}" href="#"><i class="glyphicon glyphicon-ok"></i>&nbsp;Active</a>
+                                                                            @endif
+                                                                            
+                                                                            <div class="dropdown-divider"></div>
+                                                                            <a class="dropdown-item tst2" data-id="{{ base64_encode($data->id) }}" href="#"><i class="fa fa-trash"></i>&nbsp;&nbsp;Delete</a>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
+                                                            @endif
                                                         </td>
                                                     </tr>
                                                     @php
