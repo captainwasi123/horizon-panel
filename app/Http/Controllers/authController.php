@@ -100,7 +100,7 @@ class authController extends Controller
 
     function users(){
        if (Auth::check() && Auth::user()->role_id == '1') {
-            $databelt = User::all();
+            $databelt = User::orderBy('status')->get();
             return view('users.userList', ['databelt' => $databelt]);
         }else{
             return redirect('/login')->with('error', 'Authentication Error');
