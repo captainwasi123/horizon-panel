@@ -12,6 +12,7 @@ use App\leads\category;
 use App\sales\assign;
 use App\User;
 use App\userLog;
+use App\team;
 
 class bahriaLeadsController extends Controller
 {
@@ -99,6 +100,7 @@ class bahriaLeadsController extends Controller
        if (Auth::check()) {
             $status = status::all();
             $category = category::all();
+            $team = team::orderBy('name')->get();
             $user = User::where('role_id', '3')->get();
             $databelt = lead::where('trash', null)
                         ->where('lead_status', '2')
@@ -107,7 +109,7 @@ class bahriaLeadsController extends Controller
                             return $q->where('visit_date', null)->orWhere('visit_hold', '1');
                         })
                         ->orderBy('created_at', 'desc')->get();
-            return view('bahriaLeads.potentialQueries', ['databelt' => $databelt, 'status' => $status, 'category' => $category, 'users' => $user, 'filter' => '0']);
+            return view('bahriaLeads.potentialQueries', ['databelt' => $databelt, 'status' => $status, 'category' => $category, 'users' => $user, 'filter' => '0', 'team' => $team]);
         }else{
             return redirect('/login')->with('error', 'Authentication Error');
         } 
@@ -122,6 +124,7 @@ class bahriaLeadsController extends Controller
             $dfrom = date('Y-m-d H:i:s', strtotime($dformat[0].' 00:00:01'));
             $status = status::all();
             $category = category::all();
+            $team = team::orderBy('name')->get();
             $user = User::where('role_id', '3')->get();
             $databelt = lead::where('trash', null)
                         ->when(!empty($data['cust_name']), function ($q) use ($data) {
@@ -144,7 +147,7 @@ class bahriaLeadsController extends Controller
                         })
                         ->where('lead_status', '2')
                         ->orderBy('created_at', 'desc')->get();
-            return view('bahriaLeads.potentialQueries', ['databelt' => $databelt, 'status' => $status, 'category' => $category, 'users' => $user, 'filter' => '1', 'search_data' => $data]);
+            return view('bahriaLeads.potentialQueries', ['databelt' => $databelt, 'status' => $status, 'category' => $category, 'users' => $user, 'filter' => '1', 'search_data' => $data, 'team' => $team]);
         }else{
             return redirect('/login')->with('error', 'Authentication Error');
         } 
@@ -160,6 +163,9 @@ class bahriaLeadsController extends Controller
                         ->where('visit_date', '!=', null)
                         ->where('visit_hold', null)
                         ->whereIn('cat_id', ['1', '2', '3'])
+                        ->when(Auth::user()->role_id !== 1, function ($q){
+                            return $q->where('team_id', Auth::user()->team_id);
+                        })
                         ->orderBy('created_at', 'desc')->get();
             return view('bahriaLeads.superPotentialQueries', ['databelt' => $databelt, 'status' => $status, 'category' => $category, 'users' => $user, 'filter' => '0']);
         }else{
@@ -189,6 +195,9 @@ class bahriaLeadsController extends Controller
                         })
                         ->when(!empty($data['phone']), function ($q) use ($data) {
                             return $q->where('phone', 'like', '%' . $data['phone'] . '%');
+                        })
+                        ->when(Auth::user()->role_id !== 1, function ($q){
+                            return $q->where('team_id', Auth::user()->team_id);
                         })
                         ->whereIn('cat_id', ['1', '2', '3'])
                         ->where('created_at', '>=', $dfrom)
@@ -278,6 +287,7 @@ class bahriaLeadsController extends Controller
             $da = lead::where('id', $id)->first();
             $da->visit_date = $data['visit_date'];
             $da->visit_hold = empty($data['visit_hold']) ? null : $data['visit_hold'];
+            $da->team_id = $data['team'];
             $da->save();
 
             userLog::addLog($id, '8');

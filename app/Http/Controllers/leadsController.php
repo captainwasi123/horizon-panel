@@ -12,6 +12,7 @@ use App\leads\category;
 use App\sales\assign;
 use App\User;
 use App\userLog;
+use App\team;
 
 class leadsController extends Controller
 {
@@ -96,6 +97,7 @@ class leadsController extends Controller
        if (Auth::check()) {
             $status = status::all();
             $category = category::all();
+            $team = team::orderBy('name')->get();
             $user = User::where('role_id', '3')->get();
             $databelt = lead::where('lead_status', '2')
                         ->when(1>0, function ($q) {
@@ -103,7 +105,7 @@ class leadsController extends Controller
                         })
                         ->where('trash', null)
                         ->orderBy('created_at', 'desc')->get();
-            return view('leads.potentialQueries', ['databelt' => $databelt, 'status' => $status, 'category' => $category, 'users' => $user, 'filter' => '0']);
+            return view('leads.potentialQueries', ['databelt' => $databelt, 'status' => $status, 'category' => $category, 'users' => $user, 'filter' => '0', 'team' => $team]);
         }else{
             return redirect('/login')->with('error', 'Authentication Error');
         } 
@@ -118,6 +120,7 @@ class leadsController extends Controller
             $dfrom = date('Y-m-d H:i:s', strtotime($dformat[0].' 00:00:01'));
             $status = status::all();
             $category = category::all();
+            $team = team::orderBy('name')->get();
             $user = User::where('role_id', '3')->get();
             $databelt = lead::where('trash', null)
                         ->when(!empty($data['cust_name']), function ($q) use ($data) {
@@ -139,7 +142,7 @@ class leadsController extends Controller
                         })
                         ->where('lead_status', '2')
                         ->orderBy('created_at', 'desc')->get();
-            return view('leads.potentialQueries', ['databelt' => $databelt, 'status' => $status, 'category' => $category, 'users' => $user, 'filter' => '1', 'search_data' => $data]);
+            return view('leads.potentialQueries', ['databelt' => $databelt, 'status' => $status, 'category' => $category, 'users' => $user, 'filter' => '1', 'search_data' => $data, 'team' => $team]);
         }else{
             return redirect('/login')->with('error', 'Authentication Error');
         } 
@@ -154,6 +157,9 @@ class leadsController extends Controller
                         ->where('lead_status', '2')
                         ->where('visit_date', '!=', null)
                         ->where('visit_hold', null)
+                        ->when(Auth::user()->role_id !== 1, function ($q){
+                            return $q->where('team_id', Auth::user()->team_id);
+                        })
                         ->orderBy('created_at', 'desc')->get();
             return view('leads.superPotentialQueries', ['databelt' => $databelt, 'status' => $status, 'category' => $category, 'users' => $user, 'filter' => '0']);
         }else{
@@ -183,6 +189,9 @@ class leadsController extends Controller
                         })
                         ->when(!empty($data['phone']), function ($q) use ($data) {
                             return $q->where('phone', 'like', '%' . $data['phone'] . '%');
+                        })
+                        ->when(Auth::user()->role_id !== 1, function ($q){
+                            return $q->where('team_id', Auth::user()->team_id);
                         })
                         ->where('created_at', '>=', $dfrom)
                         ->where('created_at', '<=', $dto)
@@ -269,6 +278,7 @@ class leadsController extends Controller
             $da = lead::where('id', $id)->first();
             $da->visit_date = $data['visit_date'];
             $da->visit_hold = empty($data['visit_hold']) ? null : $data['visit_hold'];
+            $da->team_id = $data['team'];
             $da->save();
 
             userLog::addLog($id, '8');

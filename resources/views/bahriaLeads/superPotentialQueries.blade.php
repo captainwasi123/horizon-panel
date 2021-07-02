@@ -93,6 +93,7 @@
                                                         <th>Status</th>
                                                         <th>Remarks</th>
                                                         <th>User</th>
+                                                        <th>Team</th>
                                                         <th>Created at</th>
                                                         <th>Action</th>
                                                     </tr>
@@ -136,6 +137,7 @@
                                                             <a href="javascript:void(0)" class="openremarks" data-id="{{$data->id}}"><span class="badge badge-success">{{count($data->leadRemarks)}} Items</span></a>
                                                         </td>
                                                         <td><p class="user-label">{{$data->user->fullname}}</p></td>
+                                                        <td><span class="badge badge-info">{{empty($data->team) ? '' : $data->team->name}}</span></td>
                                                         <td><p class="date-label">{{date('d-M-Y h:i a', strtotime($data->created_at))}}</p></td>
 														<td>
                                                             <div class="btn-group">

@@ -242,6 +242,14 @@
                                     <label>Date:</label>
                                     <input type="date" name="visit_date" class="form-control" id="data_date" required>
                                     <br>
+                                    <label>Team</label>
+                                    <select class="form-control" name="team" required>
+                                        <option value="" selected disabled>Select</option>
+                                        @foreach($team as $val)
+                                            <option value="{{$val->id}}">{{$val->name}}</option>
+                                        @endforeach
+                                    </select>
+                                    <br>
                                     <input type="checkbox" name="visit_hold" value="1" id="data_hold">
                                     <label>Hold</label>
                                 </div>

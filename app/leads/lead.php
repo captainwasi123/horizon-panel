@@ -12,6 +12,7 @@ use App\sales\assign;
 use App\planning\plan;
 use App\construction\gworkflow;
 use App\User;
+use App\team;
 
 class lead extends Model
 {
@@ -57,6 +58,9 @@ class lead extends Model
     }
 
 
+    public function team(){
+        return $this->belongsTo(team::class, 'team_id');
+    }
     public function category(){
         return $this->belongsTo(category::class, 'cat_id');
     }
