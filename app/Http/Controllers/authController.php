@@ -120,7 +120,6 @@ class authController extends Controller
     function insertUser(Request $request){
         if (Auth::check()) {
             $validatedData = $request->validate([
-                'username' => 'required|unique:tbl_users_info|max:25|min:4',
                 'password' => 'required|confirmed|min:6',
             ]);
 
