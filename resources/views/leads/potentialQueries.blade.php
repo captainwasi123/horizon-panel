@@ -141,6 +141,7 @@
                                                                 <div class="dropdown">
                                                                     <a href="#" aria-expanded="false" data-toggle="dropdown" class="btn btn-link dropdown-toggle btn-icon-dropdown"><span class="feather-icon"><i data-feather="server"></i></span> <span class="caret"></span></a>
                                                                     <div role="menu" class="dropdown-menu">
+                                                                        <a class="dropdown-item sendBackToQuery" data-id="{{ base64_encode($data->id) }}" href="#"><i class="fa fa-arrow-left"></i>&nbsp;&nbsp;Send Back</a>
                                                                         <a class="dropdown-item visitModal" data-id="{{ base64_encode($data->id) }}" data-date="{{$data->visit_date}}" data-hold="{{$data->visit_hold}}" href="javascript:void(0)"><i class="fa fa-calendar"></i>&nbsp;&nbsp;Visit Date</a>
                                                                         @if(Auth::user()->role_id == '1' || Auth::user()->role_id == '8')
                                                                             <a class="dropdown-item" href="{{URL::to('/')}}/query/edit/{{ base64_encode($data->id) }}"><i class="fa fa-edit"></i>&nbsp;Edit</a> 
@@ -394,6 +395,23 @@
                 $.toast({
                     heading: 'Are you sure you want to move this to trash?',
                     text: '<i class="jq-toast-icon ti-alert"></i><a href="{{ URL::to("/")}}/query/delete/'+del_data+'" class="btn btn-primary btn-sm">&nbsp;&nbsp;&nbsp;&nbsp;Yes&nbsp;&nbsp;&nbsp;&nbsp;</a>',
+                    position: 'top-center',
+                    loaderBg:'#7a5449',
+                    class: 'jq-has-icon jq-toast-warning',
+                    hideAfter: 3500, 
+                    stack: 6,
+                    showHideTransition: 'fade'
+                });
+                return false;
+            });
+
+            $(document).on('click', '.sendBackToQuery', function() {
+                var del_data = $(this).data("id");
+                $.toast().reset('all');
+                $("body").removeAttr('class');
+                $.toast({
+                    heading: 'Are you sure you want to move this to queries?',
+                    text: '<i class="jq-toast-icon ti-alert"></i><a href="{{ URL::to("/")}}/query/status/1/'+del_data+'" class="btn btn-primary btn-sm">&nbsp;&nbsp;&nbsp;&nbsp;Yes&nbsp;&nbsp;&nbsp;&nbsp;</a>',
                     position: 'top-center',
                     loaderBg:'#7a5449',
                     class: 'jq-has-icon jq-toast-warning',
